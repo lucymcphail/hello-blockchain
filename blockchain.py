@@ -19,10 +19,13 @@ class Blockchain(object):
         block = {
             'index': len(self.chain) + 1,
             'timestamp': time(),
-            'content': None,
+            'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
         }
+
+        # Reset the list of transactions
+        self.current_transactions = []
 
         self.chain.append(block)
         return block
@@ -54,7 +57,7 @@ class Blockchain(object):
 
         return proof
 
-    def valid_proof(last_proof, proof, difficulty):
+    def valid_proof(self, last_proof, proof, difficulty):
         """Validates the proof; does hash(last_proof, proof) contain
         `difficulty' leading zeroes?
 
