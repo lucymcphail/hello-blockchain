@@ -6,6 +6,7 @@ from time import time
 class Blockchain(object):
     def __init__(self):
         self.chain = []
+        self.current_transactions = []
 
         # Genesis block
         self.new_block(previous_hash=1, proof=100)
@@ -25,6 +26,19 @@ class Blockchain(object):
 
         self.chain.append(block)
         return block
+
+    def new_transaction(self, sender, recipient, amount):
+        """Creates a new transaction for the next mined block
+
+        """
+
+        self.current_transactions.append({
+            'sender': sender,
+            'recipient': recipient,
+            'amount': amount,
+        })
+
+        return self.last_block['index'] + 1
 
     def proof_of_work(self, last_proof):
         """Simple Proof of Work (PoW) algorithm: Find a number p' such that
